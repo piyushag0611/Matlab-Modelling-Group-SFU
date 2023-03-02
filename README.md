@@ -1,6 +1,6 @@
 # Matlab-Modelling-Group-SFU
 
-We are a group of enthusiastic students working with Dr. John Alderete on implementing Cognitive and Linguistic Models using Matlab. We have implemented the following models:
+We are a group of enthusiastic SFU students working with Dr. John Alderete on implementing Cognitive and Linguistic Models using Matlab. We have implemented the following models:
 1. Jets and Sharks: (Retrieving General and Specific Information from Stored Knowledge of Specifics: Jamea L. McClelland, 1981)
 
 
