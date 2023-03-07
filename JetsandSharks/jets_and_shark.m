@@ -1,15 +1,22 @@
+% Read data from a CSV file into a table
 js_data = readtable("C:\Spring Term\Matlab Modelling Group\jetsandshark.csv");
+% Create a map to store nodes that excite each other
 excitory_nodes = containers.Map;
+% Iterate through each row and column of the table
 for i = 1:27
     for j = 2:6
+        % Extract the two elements of the current cell.
+        % ele1 is fixed and ele2 varies
         ele1 = cell2mat(js_data{i, 1}(1));
         ele2 = cell2mat(js_data{i, j}(1));
+        % If the first element already exists in the map, append the second element to its list
         if isKey(excitory_nodes, ele1)
             excitory_nodes(ele1) = [excitory_nodes(ele1) {ele2}];
-        else
+        else % Otherwise, create a new key-value pair with the first element as the key and the second element as a value
             excitory_nodes(ele1) = {ele2};
         end
 
+        % Repeat the process for the second element, using the first element as the value instead
         if isKey(excitory_nodes, ele2)
             excitory_nodes(ele2) = [excitory_nodes(ele2) {ele1}];
         else
@@ -17,27 +24,38 @@ for i = 1:27
         end
     end
 end
+% Create a map to store nodes that inhibit each other
 inhibitory_nodes = containers.Map;
+% Iterate through each column of the table
 for i = 1:6
+    % Extract the unique elements in the current column
     col = unique(table2array(js_data(:, i)));
+    % Iterate through each unique element
     for j = 1:size(col, 1)
         ele = cell2mat(col(j));
-        inhibitory_nodes(ele) = setdiff(col, ele);
+        % Create a new key-value pair with the current element as the key and the set difference between the column and the current element as the value
+        inhibitory_nodes(ele) = setdiff(col, ele); 
     end
 end
+% Create a map to store activation values for each node
 activation_values = containers.Map;
+% Iterate through each key in the excitory_nodes map
 keys_ = excitory_nodes.keys();
 for i = 1:length(keys_)
     key = keys_{i};
+    % Initialize the activation value for the current node to -0.1
     activation_values(key) = [-0.1];
 end
+% Create a map to store probe values for each node
 new_val = zeros(1, 41);
 probe_ = containers.Map(excitory_nodes.keys, new_val);
+% Prompt the user to input which nodes to probe on
 prompt = "What do you want to probe on?";
 dlgtitle = "Probe Input";
 dims = [1, 50];
 answer = inputdlg(prompt, dlgtitle, dims);
 answer = split(cell2mat(answer));
+% Set the probe value for each selected node to 0.2
 for i = 1:length(answer)
     value = cell2mat(answer(i));
     probe_(value) = 0.2;
