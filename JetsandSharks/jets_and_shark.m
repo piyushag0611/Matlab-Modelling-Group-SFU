@@ -1,5 +1,5 @@
 % Read data from a CSV file into a table
-js_data = readtable("C:\Spring Term\Matlab Modelling Group\jetsandshark.csv");
+js_data = readtable("\jetsandshark.csv");
 % Create a map to store nodes that excite each other
 excitory_nodes = containers.Map;
 % Iterate through each row and column of the table
