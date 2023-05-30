@@ -23,7 +23,6 @@ def generate_similarity_index(file_name, type_):
   for i in range(len(data)):
       word1 = data.iloc[i]['words1'].split()[0].lower()
       word2 = data.iloc[i]['words2'].split()[0].lower()
-      print(word1, word2)
       try:
           val1 = cos_vectors(glove_vectors_wiki, word1, word2)
       except:
@@ -31,13 +30,18 @@ def generate_similarity_index(file_name, type_):
       try:
           val2 = cos_vectors(glove_vectors_twitter, word1, word2)
       except:
-          val2 = -2
-          
-  value_pairs1.append(val1)
-  value_pairs2.append(val2)
+          val2 = -2     
+      value_pairs1.append(val1)
+      value_pairs2.append(val2)
+      
   data['Glove-50-Wiki Measure'] = value_pairs1
   data['Glove-50-Twitter Measure'] = value_pairs2
   if(type=='xlsx'):
     data.to_excel(file_name)
   else:
     data.to_csv(file_name)
+
+def main():
+      file_name = 'wordpairs.xlsx'
+      type_ = 'xlsx'
+      generate_similarity_index(file_name, type_)
